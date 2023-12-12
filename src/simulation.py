@@ -17,8 +17,8 @@ def generate_simulation_order(bn: BayesNet):
     when setting the original lists, apply sort to allow reproducibility
     print statements useful for debugging - keep for the moment
     """
-    independent_nodes = list(bn.independent_nodes)
-    conditional_nodes = list(bn.all_nodes - bn.independent_nodes)
+    independent_nodes = sorted(list(bn.independent_nodes))
+    conditional_nodes = sorted(list(bn.all_nodes - bn.independent_nodes))
     parents = deepcopy(bn.parents)
     node_order = []
     while independent_nodes:
