@@ -55,3 +55,33 @@ def estimate_p_x_y_generalised(
     count_x_and_y = event_x_and_y.sum()
 
     return (count_x_and_y, count_y, count_x_and_y / count_y)
+
+
+def generate_p_x_y_df(random_variates: pd.DataFrame, names: dict):
+    """Generates data-frame of P(X|Y): counts and empirical probabilities."""
+    count_x_and_y = {}
+    count_y = {}
+    for y in names:
+        count_y[y] = random_variates[y].sum()
+        for x in names:
+            count_x_and_y[(x, y)] = (random_variates[x] * random_variates[y]).sum()
+
+    p_x_y_df = pd.concat(
+        [
+            pd.DataFrame(
+                {
+                    "Label": f"P({x}|{y})",
+                    "Event X": names[x],
+                    "Event Y": names[y],
+                    "Count X & Y": cxy,
+                    "Count Y": count_y[y],
+                    "Estimate for P(X|Y)": cxy / count_y[y],
+                },
+                index=[0],
+            )
+            for ((x, y), cxy) in count_x_and_y.items()
+        ]
+    )
+    p_x_y_df.set_index("Label", inplace=True)
+
+    return p_x_y_df
