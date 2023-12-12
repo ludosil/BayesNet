@@ -1,0 +1,6 @@
+node,name,distribution,dependencies
+B,Burglary,BERNOULLI,A
+E,Earthquake,BERNOULLI,A
+A,Alarm,BERNOULLI,M;J
+M,Mary calls,BERNOULLI,None
+J,John calls,BERNOULLI,None
