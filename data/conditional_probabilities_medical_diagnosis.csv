@@ -1,5 +1,5 @@
 node,distribution,parameters,conditionals
-SM,BERNOULLI,p=0.3,None
+SM,BERNOULLI,p=0.13,None
 HBP,BERNOULLI,p=0.48,None
 A,BERNOULLI,p=0.25,None
 B,BERNOULLI,p=0.3,SM=0
