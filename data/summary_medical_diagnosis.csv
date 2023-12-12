@@ -1,0 +1,11 @@
+node,name,distribution,dependencies
+SM,Smoking,BERNOULLI,B;LC;HC
+HBP,High blood pressure,BERNOULLI,HC
+A,Allergy,BERNOULLI,SN
+B,Bronchitis,BERNOULLI,SN;HT;SC
+LC,Lung cancer,BERNOULLI,HT;SC
+HC,Heart condition,BERNOULLI,DS
+SN,Sneezing,BERNOULLI,None
+HT,High temperature,BERNOULLI,None
+SC,Severe cough,BERNOULLI,None
+DS,Dizziness spells,BERNOULLI,None
