@@ -1,0 +1,6 @@
+summary_fp: .\data\summary_alarm.csv
+conditional_distributions_fp: .\data\conditional_probabilities_alarm.csv
+random_seed: 0
+num_sims: 100000
+output_fp_rv: rv_alarm.csv
+output_fp_pxy: pxy_alarm.csv
