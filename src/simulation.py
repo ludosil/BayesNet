@@ -2,31 +2,50 @@ from src.bayesnet import BayesNet
 from src.distribution import ConditionalDistribution
 import pandas as pd
 import numpy as np
+from copy import deepcopy
 
 
-def generate_simulation_order(all_nodes: set, parents_dict: dict):
-    """Generates valid simulation order for Bayes net given all nodes and parent mappings."""
-    nodes_to_add = all_nodes.copy()
-    num_nodes = len(nodes_to_add)
-    nodes_to_simulate = []
+def generate_simulation_order(bn: BayesNet):
+    """
+    use three lists - indepedent nodes, conditional nodes, order
+    order is initially empty while conditional and independent nodes are initialised from network values
+    while independent nodes not empty:
+        pop off node and append to order - return if no conditionals left
+        remove node from any parent mapping
+        evaluate whether any conditional nodes are now (conditionally) independent
+        append these to independent nodes
+    when setting the original lists, apply sort to allow reproducibility
+    print statements useful for debugging - keep for the moment
+    """
+    independent_nodes = list(bn.independent_nodes)
+    conditional_nodes = list(bn.all_nodes - bn.independent_nodes)
+    parents = deepcopy(bn.parents)
+    node_order = []
+    while independent_nodes:
+        # print(f"{independent_nodes}:{conditional_nodes}:{node_order}")
+        node = independent_nodes.pop()
+        # print(f"popped off {node}")
+        node_order.append(node)
+        # print(f"{independent_nodes}:{conditional_nodes}:{node_order}")
 
-    while nodes_to_add:
-        node = nodes_to_add.pop()
-        parents = parents_dict.get(node, None)
+        # print(f"can we remove parent {node} from {parents}?")
+        for c, ps in parents.items():
+            if node in ps:
+                ps.remove(node)
+        # print(f"post-update parents is {parents}")
 
-        # insert one beyond last parent, using -1 as index for no parents (or no parents in list)
-        if parents is not None:
-            parents_in_list = [
-                nodes_to_simulate.index(p) if p in nodes_to_simulate else -1
-                for p in parents
-            ]
-            max_parent = max(parents_in_list)
-        else:
-            max_parent = -1
+        # print(f"are there any newly (conditionally) independent nodes?")
+        conditionally_independent_nodes = sorted(
+            [c for c, ps in parents.items() if ps == []]
+        )
+        for c in conditionally_independent_nodes:
+            parents.pop(c)
+            conditional_nodes.remove(c)
+        # print(f"{conditionally_independent_nodes}\n")
+        if conditionally_independent_nodes:
+            independent_nodes = independent_nodes + conditionally_independent_nodes
 
-        nodes_to_simulate.insert(max_parent + 1, node)
-
-    return nodes_to_simulate
+    return node_order
 
 
 def simulate_bayes_net(

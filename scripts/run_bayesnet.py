@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     bn = BayesNet(summary_df, conditional_distributions_df)
     # visualise_bn(bn, use_full_names=True)
-    simulation_order = generate_simulation_order(bn.all_nodes, bn.parents)
+    simulation_order = generate_simulation_order(bn)
     rng = np.random.default_rng(random_seed)
     random_numbers = pd.DataFrame(
         {var: rng.random(num_sims) for var in simulation_order}
