@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from src.bayesnet import BayesNet
 from src.simulation import generate_simulation_order, simulate_bayes_net
-from src.estimate import generate_p_x_y_df
+from src.estimate import generate_p_x_y_df_binary_network
 import pytest
 
 
@@ -26,7 +26,7 @@ def test_e2e():
         random_variates = simulate_bayes_net(
             simulation_order, bn.conditional_distributions, random_numbers
         )
-        pxy_df = generate_p_x_y_df(random_variates, bn.names)
+        pxy_df = generate_p_x_y_df_binary_network(random_variates, bn.names)
 
         # check all(PX|X) counts are identical
     for i, row in pxy_df.iterrows():
