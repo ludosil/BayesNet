@@ -42,7 +42,7 @@ if __name__ == "__main__":
     random_variates = simulate_bayes_net(
         simulation_order, bn.conditional_distributions, random_numbers
     )
-    pxy_df = generate_p_x_y_df(random_variates, bn.names)
+    pxy_df = generate_p_x_y_df(random_variates, bn)
 
     # write random variates
     if os.path.exists(output_fp_rv):
