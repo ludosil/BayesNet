@@ -1,7 +1,5 @@
 from src.distribution import (
     Distribution,
-    distribution_to_ppf,
-    distribution_to_possible_values,
     ConditionalDistribution,
 )
 import graphviz
@@ -136,14 +134,6 @@ def parse_df_row_into_conditional_distribution(df_row):
     parameters = [tuple(pv.split("=")) for pv in df_row.parameters.split(";")]
     parameters = {p: float(v) for p, v in parameters}
 
-    # create a ppf using the supplied parameter(s)
-    # this should pass/fail depending on whether the values are consistent with what scipy.stats expects
-    # output a meaningful error message if this fails
-    sci_py_distribution = distribution_to_ppf[distribution]
-
-    def ppf(x):
-        return (sci_py_distribution.ppf(x, **parameters)).astype(int)
-
     # get conditionals - either None or list of tuples which can be parsed as we did the parameters
     # convert '1' or '0' if supplied as conditional values - relevant for binary variable network
     if df_row.conditionals == "None":
@@ -158,7 +148,6 @@ def parse_df_row_into_conditional_distribution(df_row):
         distribution=distribution,
         parameters=parameters,
         conditionals=conditionals,
-        ppf=ppf,
     )
 
 
@@ -184,8 +173,11 @@ def check_self_consistency(
         # e.g. for A, we would have two lists
         # B -> [(B,0), (B,1)]
         # E -> [(E,0), (E,1)]
+        # import pdb
+
+        # pdb.set_trace()
         parent_possible_values = [
-            [(p, v) for v in distribution_to_possible_values[distributions[p]]]
+            [(p, v) for v in conditional_distributions[p][0].possible_values]
             for p in parents[node]
         ]
         expected_conditionals = [list(x) for x in product(*parent_possible_values)]
