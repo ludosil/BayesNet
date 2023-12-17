@@ -57,8 +57,8 @@ def estimate_p_x_y_generalised(
     return (count_x_and_y, count_y, count_x_and_y / count_y)
 
 
-def generate_p_x_y_df(random_variates: pd.DataFrame, names: dict):
-    """Generates data-frame of P(X|Y): counts and empirical probabilities."""
+def generate_p_x_y_df_binary_network(random_variates: pd.DataFrame, names: dict):
+    """Generates data-frame of P(X|Y): counts and empirical probabilities: binary networks only."""
     count_x_and_y = {}
     count_y = {}
     for y in names:
