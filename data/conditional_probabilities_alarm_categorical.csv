@@ -1,0 +1,11 @@
+node,distribution,parameters,conditionals
+B,CATEGORICAL,Burglary=0.001;NoBurglary=0.999,None
+E,CATEGORICAL,Earthquake=0.002;NoEarthquake=0.998,None
+A,CATEGORICAL,Alarm=0.95;NoAlarm=0.05,B=Burglary;E=Earthquake
+A,CATEGORICAL,Alarm=0.94;NoAlarm=0.06,B=Burglary;E=NoEarthquake
+A,CATEGORICAL,Alarm=0.29;NoAlarm=0.71,B=NoBurglary;E=Earthquake
+A,CATEGORICAL,Alarm=0.001;NoAlarm=0.999,B=NoBurglary;E=NoEarthquake
+J,CATEGORICAL,JohnCalls=0.9;JohnDoesNotCall=0.1,A=Alarm
+J,CATEGORICAL,JohnCalls=0.05;JohnDoesNotCall=0.95,A=NoAlarm
+M,CATEGORICAL,MaryCalls=0.7;MaryDoesNotCall=0.3,A=Alarm
+M,CATEGORICAL,MaryCalls=0.01;MaryDoesNotCall=0.99,A=NoAlarm

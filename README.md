@@ -41,10 +41,11 @@ The [tests](tests/) folder contains unit tests. Run these with 'python -m pytest
 
 ## Data
 
-The model generates a Bayes net from two CSV files, one that represents a summary view and one that sets out the conditional distributions. There are currently two examples in [data/](data/):
+The model generates a Bayes net from two CSV files, one that represents a summary view and one that sets out the conditional distributions. There are currently three examples in [data/](data/):
 
 1. The alarm network - a well known example used to teach Bayes nets: https://github.com/jpmcarrilho/AIMA/blob/master/probability-4e.ipynb
-2. A medical diagnosis network, taken from: Santos, Eugene & Shimony, S.E.. (1998). Deterministic approximation of marginal probabilities in Bayes nets. Systems, Man and Cybernetics, Part A: Systems and Humans, IEEE Transactions on. 28. 377 - 393. 10.1109/3468.686701. __Please note - probabilities are indicative only - ad-hoc estimation from Google search__
+2. The alarm network implemented via a more generic categorical representation. (1) is implemented as a Bernoulli (binary) variable network
+3. A medical diagnosis network, taken from: Santos, Eugene & Shimony, S.E.. (1998). Deterministic approximation of marginal probabilities in Bayes nets. Systems, Man and Cybernetics, Part A: Systems and Humans, IEEE Transactions on. 28. 377 - 393. 10.1109/3468.686701. __Please note - probabilities are indicative only - ad-hoc estimation from Google search__
 
 Both these examples can be run using the scripts above. Try creating a simple network yourself; simple Bayesian problems like Monty Hall and did-I-flip-the-two-sided-coin can be modelled as two-node problems.
 
@@ -63,13 +64,13 @@ Tidy-up
 - Add regex checks prior to parsing of input files
 - Where useful, add more informative error message e.g. which conditionals are missing in actual vs. expected check
 
-Distributions
+~~Distributions~~
 
-- The code in [src/distribution.py](src/distribution.py) is a little scattered - an enumeration, two dictionaries, and a dataclass; this can be refactored into a single class that encapsulates all the functionality required. This should enable a generalised categorical distribution
+- ~~The code in [src/distribution.py](src/distribution.py) is a little scattered - an enumeration, two dictionaries, and a dataclass; this can be refactored into a single class that encapsulates all the functionality required. This should enable a generalised categorical distribution~~ - complete
 
-Binary variables -> categorical variables
+~~Binary variables -> categorical variables~~
 
-- Linked to the distribution development is the one to generalise the model to handle categorical representations
+- ~~Linked to the distribution development is the one to generalise the model to handle categorical representations~~ - complete
 
 User functionality to generate skeleton conditional distribution files
 

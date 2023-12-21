@@ -2,6 +2,9 @@ from enum import Enum
 import pandas as pd
 import numpy as np
 
+from src.bayesnet import BayesNet
+from itertools import product
+
 
 class EventCombination(Enum):
     ALL_EVENTS = 1
@@ -57,8 +60,45 @@ def estimate_p_x_y_generalised(
     return (count_x_and_y, count_y, count_x_and_y / count_y)
 
 
-def generate_p_x_y_df(random_variates: pd.DataFrame, names: dict):
-    """Generates data-frame of P(X|Y): counts and empirical probabilities."""
+def generate_p_x_y_df(random_variates: pd.DataFrame, bn: BayesNet):
+    """Generates data-frame of P(X|Y): counts and empirical probabilities for general discrete distribution."""
+    count_x_and_y = {}
+    count_y = {}
+    for y in bn.all_nodes:
+        possible_values_y = bn.conditional_distributions[y][0].possible_values
+        for x in bn.all_nodes:
+            possible_values_x = bn.conditional_distributions[x][0].possible_values
+            for valx, valy in product(possible_values_x, possible_values_y):
+                # print(valx, valy)
+                count_y[f"{y}={valy}"] = (random_variates[y] == valy).astype(int).sum()
+                count_x_and_y[(f"{x}={valx}", f"{y}={valy}")] = (
+                    (random_variates[x] == valx).astype(int)
+                    * (random_variates[y] == valy).astype(int)
+                ).sum()
+
+    p_x_y_df = pd.concat(
+        [
+            pd.DataFrame(
+                {
+                    "Label": f"P({x}|{y})",
+                    "Event X": x,
+                    "Event Y": y,
+                    "Count X & Y": cxy,
+                    "Count Y": count_y[y],
+                    "Estimate for P(X|Y)": cxy / count_y[y],
+                },
+                index=[0],
+            )
+            for ((x, y), cxy) in count_x_and_y.items()
+        ]
+    )
+    p_x_y_df.set_index("Label", inplace=True)
+
+    return p_x_y_df
+
+
+def generate_p_x_y_df_binary_network(random_variates: pd.DataFrame, names: dict):
+    """Generates data-frame of P(X|Y): counts and empirical probabilities: binary networks only."""
     count_x_and_y = {}
     count_y = {}
     for y in names:

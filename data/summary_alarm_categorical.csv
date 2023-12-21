@@ -1,0 +1,6 @@
+node,name,distribution,dependencies
+B,Burglary,CATEGORICAL,A
+E,Earthquake,CATEGORICAL,A
+A,Alarm,CATEGORICAL,M;J
+M,Mary calls,CATEGORICAL,None
+J,John calls,CATEGORICAL,None
