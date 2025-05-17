@@ -64,14 +64,6 @@ Tidy-up
 - Add regex checks prior to parsing of input files
 - Where useful, add more informative error message e.g. which conditionals are missing in actual vs. expected check
 
-~~Distributions~~
-
-- ~~The code in [src/distribution.py](src/distribution.py) is a little scattered - an enumeration, two dictionaries, and a dataclass; this can be refactored into a single class that encapsulates all the functionality required. This should enable a generalised categorical distribution~~ - complete
-
-~~Binary variables -> categorical variables~~
-
-- ~~Linked to the distribution development is the one to generalise the model to handle categorical representations~~ - complete
-
 User functionality to generate skeleton conditional distribution files
 
 - The Bayes net is initialised from two files, one to represent the summary view and one for the conditional distributions. The former is compact while the latter is more detailed, with one row for every possible distribution. As the Bayes net grows in size, it gets more difficult, error-prone and tedious to set this out by hand. Given the summary file, we can generate a conditional distributions input file that is valid; the only item for the user to complete would be the probabilities
